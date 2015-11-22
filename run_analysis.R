@@ -3,13 +3,13 @@ library(plyr)
 #Read in the features file, which contains the column names
 features <- read.table("./UCI HAR Dataset/features.txt", sep=" ")
 
-#Read in the test dataset, using the the column names from freature. Then get the subjects and activities
+#Read in the test dataset, using the the column names from feature. Then get the subjects and activities
 testdata <- read.table("./UCI HAR Dataset/test/X_test.txt",col.names=features[,2])
 testSubjects <- read.table("./UCI HAR Dataset/test/subject_test.txt", col.names=c("Subject"))
 testActivities <- read.table("./UCI HAR Dataset/test/y_test.txt", col.names=c("Activity"))
 
 #Now for the fun part, getting on the *mean() and *std() columns.
-#I suppose we could just manually populate the list of column indeces to keep,
+#I suppose we could just manually populate the list of column indices to keep,
 #but I think that would suck.
 featurestoinclude <- grep("mean()|std()", features[,2])
 testdata <- testdata[,featurestoinclude]
@@ -37,7 +37,7 @@ trackerdata$Activity <- factor(trackerdata$Activity, labels=c("WALKING","WALKING
 #write out the tidy trackerdata
 write.table(trackerdata, file="./trackerdata.txt", row.names=FALSE)
 
-#and finally, to summarise
+#and finally, to summarize
 summarydata <-aggregate(.~ Subject + Activity, data=trackerdata, mean)
 
 write.table(summarydata, file="./summarydata.txt", row.names=FALSE)
